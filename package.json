@@ -1,0 +1,16 @@
+{
+  "name": "flipkart-offers",
+  "version": "1.0.0",
+  "description": "A simple backend service to detect and calculate offers from Flipkart.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "mongoose": "^5.13.23"
+  }
+}

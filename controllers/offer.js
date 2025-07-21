@@ -36,9 +36,10 @@ exports.getHighestDiscount = async (req, res) => {
     try {
         const { amountToPay, bankName, paymentInstrument } = req.query;
 
-        let query = { provider: bankName };
+         let query = { provider: { $in: [bankName.toUpperCase()] } };
+
         if (paymentInstrument) {
-            query.paymentInstruments = paymentInstrument;
+            query.paymentInstruments = { $in: [paymentInstrument] };
         }
 
         const offers = await Offer.find(query);
@@ -79,6 +80,11 @@ function calculateDiscount(offer, amountToPay) {
         }
     } else if (offerText.includes('cashback')) {
         const matches = offerText.match(/₹?([\d,]+) cashback/);
+        if (matches && matches[1]) {
+            discount = parseInt(matches[1].replace(/,/g, ''));
+        }
+    }else if (offerText.includes('save') || offerText.includes('extra')) {
+        const matches = offerText.match(/(?:save|extra)[^\d]*₹?([\d,]+)/);
         if (matches && matches[1]) {
             discount = parseInt(matches[1].replace(/,/g, ''));
         }
